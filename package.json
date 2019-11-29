@@ -39,7 +39,7 @@
     "jest": "jest",
     "lint": "npm-run-all --parallel lint:*",
     "lint:formatting": "prettier . --check",
-    "lint:js": "eslint . --cache --max-warnings=0",
+    "lint:js": "xo",
     "lint:md": "remark . --quiet --frail",
     "lint:types": "tsc",
     "release": "np",
@@ -56,15 +56,58 @@
     "*.js": "eslint --cache --fix",
     "*.{js,json,md,ts,yml}": "prettier --write"
   },
-  "prettier": "@stylelint/prettier-config",
-  "eslintConfig": {
-    "extends": [
-      "stylelint"
+  "xo": {
+    "envs": [
+      "jest",
+      "node"
     ],
-    "globals": {
-      "testRule": true
+    "globals": [
+      "testRule"
+    ],
+    "ignores": [
+      "lib/utils/parseCalcExpression/parser.js"
+    ],
+    "overrides": [
+      {
+        "files": "**/__tests__/*.js",
+        "rules": {
+          "no-template-curly-in-string": "off",
+          "no-useless-concat": "off"
+        }
+      }
+    ],
+    "prettier": true,
+    "rules": {
+      "camelcase": "off",
+      "capitalized-comments": "off",
+      "complexity": "off",
+      "default-case": "off",
+      "func-names": "off",
+      "max-params": "off",
+      "no-mixed-spaces-and-tabs": "off",
+      "no-negated-condition": "off",
+      "no-return-assign": "off",
+      "object-curly-spacing": [
+        "off",
+        "always"
+      ],
+      "prefer-destructuring": "off",
+      "prefer-exponentiation-operator": "off",
+      "promise/prefer-await-to-then": "off",
+      "spaced-comment": "off",
+      "unicorn/catch-error-name": "off",
+      "unicorn/explicit-length-check": "off",
+      "unicorn/filename-case": "off",
+      "unicorn/no-fn-reference-in-iterator": "off",
+      "unicorn/no-for-loop": "off",
+      "unicorn/no-zero-fractions": "off",
+      "unicorn/prefer-reflect-apply": "off",
+      "unicorn/prefer-string-slice": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "unicorn/string-content": "off"
     }
   },
+  "prettier": "@stylelint/prettier-config",
   "remarkConfig": {
     "plugins": [
       "@stylelint/remark-preset"
@@ -167,8 +210,6 @@
     "benchmark": "^2.1.4",
     "common-tags": "^1.8.0",
     "del": "^5.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-stylelint": "^12.0.0",
     "got": "^10.7.0",
     "husky": "^4.2.5",
     "jest": "^25.3.0",
@@ -177,8 +218,9 @@
     "np": "^6.2.1",
     "npm-run-all": "^4.1.5",
     "postcss-import": "^12.0.1",
-    "prettier": "^2.0.4",
+    "prettier": "2.0.4",
     "remark-cli": "^8.0.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "xo": "^0.30.0"
   }
 }
