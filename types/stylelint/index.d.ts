@@ -1,12 +1,12 @@
 declare module 'stylelint' {
 	import { Result, ResultMessage, WarningOptions, Warning } from 'postcss';
 
-	export type StylelintConfigExtends = string | Array<string>;
-	export type StylelintConfigPlugins = string | Array<string>;
-	export type StylelintConfigProcessor = string | [string, Object];
-	export type StylelintConfigProcessors = string | Array<StylelintConfigProcessor>;
-	export type StylelintConfigIgnoreFiles = string | Array<string>;
-	export type StylelintConfigRuleSettings = any | [any, Object];
+	export type StylelintConfigExtends = string | string[];
+	export type StylelintConfigPlugins = string | string[];
+	export type StylelintConfigProcessor = string | [string, Record<string, unknown>];
+	export type StylelintConfigProcessors = string | StylelintConfigProcessor[];
+	export type StylelintConfigIgnoreFiles = string | string[];
+	export type StylelintConfigRuleSettings = any | [any, Record<string, unknown>];
 	export type StylelintConfigRules = {
 		[ruleName: string]: StylelintConfigRuleSettings;
 	};
@@ -18,12 +18,12 @@ declare module 'stylelint' {
 			[pluginName: string]: Function;
 		};
 		processors?: StylelintConfigProcessors;
-		processorFunctions?: Array<Function>;
+		processorFunctions?: Function[];
 		ignoreFiles?: StylelintConfigIgnoreFiles;
 		ignorePatterns?: string;
 		rules?: StylelintConfigRules;
-		codeProcessors?: Array<Function>;
-		resultProcessors?: Array<Function>;
+		codeProcessors?: Function[];
+		resultProcessors?: Function[];
 		quiet?: boolean;
 		defaultSeverity?: string;
 	};
@@ -39,7 +39,7 @@ declare module 'stylelint' {
 	};
 
 	export type DisabledRangeObject = {
-		[ruleName: string]: Array<DisabledRange>;
+		[ruleName: string]: DisabledRange[];
 	};
 
 	export type StylelintPostcssResult = {
@@ -75,14 +75,14 @@ declare module 'stylelint' {
 
 	export type PostcssResult = (Result | EmptyResult) & {
 		stylelint: StylelintPostcssResult;
-		warn(message: string, options?: StylelintWarningOptions): void;
+		warn: (message: string, options?: StylelintWarningOptions) => void;
 	};
 
 	export type StylelintOptions = {
 		config?: StylelintConfig;
 		configFile?: string;
 		configBasedir?: string;
-		configOverrides?: Object;
+		configOverrides?: Record<string, unknown>;
 		ignoreDisables?: boolean;
 		ignorePath?: string;
 		reportInvalidScopeDisables?: boolean;
@@ -96,7 +96,7 @@ declare module 'stylelint' {
 		code?: string;
 		codeFilename?: string;
 		filePath?: string;
-		codeProcessors?: Array<Function>;
+		codeProcessors?: Function[];
 		syntax?: string;
 		customSyntax?: string;
 	};
@@ -113,8 +113,8 @@ declare module 'stylelint' {
 			search: (s: string) => Promise<null | CosmiconfigResult>;
 			load: (s: string) => Promise<null | CosmiconfigResult>;
 		};
-		_configCache: Map<string, Object>;
-		_specifiedConfigCache: Map<StylelintConfig, Object>;
+		_configCache: Map<string, Record<string, unknown>>;
+		_specifiedConfigCache: Map<StylelintConfig, Record<string, unknown>>;
 		_postcssResultCache: Map<string, Result>;
 
 		_getPostcssResult: (options?: GetPostcssOptions) => Promise<Result>;
@@ -128,8 +128,8 @@ declare module 'stylelint' {
 	};
 
 	export type StylelintStandaloneOptions = {
-		files?: string | Array<string>;
-		globbyOptions?: Object;
+		files?: string | string[];
+		globbyOptions?: Record<string, unknown>;
 		cache?: boolean;
 		cacheLocation?: string;
 		code?: string;
@@ -137,7 +137,7 @@ declare module 'stylelint' {
 		config?: StylelintConfig;
 		configFile?: string;
 		configBasedir?: string;
-		configOverrides?: Object;
+		configOverrides?: Record<string, unknown>;
 		printConfig?: string;
 		ignoreDisables?: boolean;
 		ignorePath?: string;
@@ -189,7 +189,7 @@ declare module 'stylelint' {
 		}>;
 		parseErrors: Array<Warning & { stylelintType: string }>;
 		errored?: boolean;
-		warnings: Array<StylelintWarning>;
+		warnings: StylelintWarning[];
 		ignored?: boolean;
 		_postcssResult?: PostcssResult;
 	};
@@ -212,7 +212,7 @@ declare module 'stylelint' {
 	};
 
 	export type StylelintStandaloneReturnValue = {
-		results: Array<StylelintResult>;
+		results: StylelintResult[];
 		errored: boolean;
 		output: any;
 		maxWarningsExceeded?: {
@@ -237,5 +237,5 @@ declare module 'stylelint' {
 		};
 	};
 
-	export type StylelintDisableOptionsReport = Array<StylelintDisableReportEntry>;
+	export type StylelintDisableOptionsReport = StylelintDisableReportEntry[];
 }

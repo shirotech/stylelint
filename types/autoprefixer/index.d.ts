@@ -1,12 +1,12 @@
 declare module 'autoprefixer/lib/browsers' {
-	import browserslist from 'browserslist';
+	import browserslist, { Stats } from 'browserslist';
 
-	type Queries = string | ReadonlyArray<string>;
+	type Queries = string | readonly string[];
 
 	interface Browsers {
-		parse(queries: Queries): string[];
-		prefix(browser: string): string;
-		isSelected(browser: string): boolean;
+		parse: (queries: Queries) => string[];
+		prefix: (browser: string) => string;
+		isSelected: (browser: string) => boolean;
 	}
 
 	class BrowsersImpl implements Browsers {
@@ -14,7 +14,7 @@ declare module 'autoprefixer/lib/browsers' {
 
 		isSelected(browser: string): boolean;
 
-		parse(queries: string | ReadonlyArray<string>): string[];
+		parse(queries: string | readonly string[]): string[];
 
 		prefix(browser: string): string;
 
@@ -32,7 +32,7 @@ declare module 'autoprefixer/lib/prefixes' {
 	interface Prefixes {
 		remove: { [k: string]: any };
 
-		unprefixed(value: string): string;
+		unprefixed: (value: string) => string;
 	}
 
 	class PrefixesImpl implements Prefixes {
@@ -57,7 +57,7 @@ declare module 'autoprefixer/lib/prefixes' {
 
 declare module 'autoprefixer' {
 	import { Plugin } from 'postcss';
-	import { Stats } from 'browserslist';
+
 	type BrowserslistTarget = string | string[] | { [key: string]: string[] };
 
 	interface Options {
